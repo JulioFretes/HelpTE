@@ -1,36 +1,46 @@
 package br.com.helpte.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.helpte.entity.Usuario;
-import br.com.helpte.repository.UsuarioRepository;
+import br.com.helpte.model.Credencial;
+import br.com.helpte.model.LoginResponse;
+import br.com.helpte.service.UsuarioService;
+import jakarta.validation.Valid;
 
+@RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:19006")
 @RestController
 public class UsuarioController {
 
 	@Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 	
-    @PostMapping("/usuario")
-    public String save(@RequestBody Usuario usuario){
-    	usuarioRepository.save(usuario);
-        
-        return "Added Successfully";
+	@GetMapping("/login")
+	public ResponseEntity<Usuario> procurar(Usuario usuario) {		
+		return ResponseEntity.ok(usuarioService.findByUsuario(usuario.getUsuario()).get());
+	}
+	
+    @PostMapping("/registro")
+    public ResponseEntity<Usuario> save(@RequestBody Usuario usuario){
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.registrar(usuario));
     }
   
-    @GetMapping("/usuario/{id}")
-    public Optional<Usuario> get(@PathVariable String id) {        
-        return usuarioRepository.findById(id);
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> get(@RequestBody @Valid Credencial credencial) {
+        return ResponseEntity.ok(usuarioService.logar(credencial));
     }
   
     @DeleteMapping("/usuario/{id}")
-    public String delete(@PathVariable String id){
-    	usuarioRepository.deleteById(id);
-        
-        return "Deleted Successfully";
+    public ResponseEntity<Usuario> delete(@PathVariable String id){
+    	usuarioService.deleteById(id);        
+        return ResponseEntity.ok().build();
     }
-	
+    @PutMapping("/usuario")
+	public ResponseEntity<Usuario> replaceUsuario(@RequestBody Usuario newUsuario) {
+    	return ResponseEntity.ok(usuarioService.replace(newUsuario));
+    }
 }

@@ -1,21 +1,28 @@
 package br.com.helpte.entity;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.helpte.model.Historico;
 
-@Document("groceryitems")
-public class Usuario {
+@SuppressWarnings("serial")
+@Document("usuarios")
+public class Usuario implements UserDetails {
 
 	@Id
     private String id;
 	
+	
 	private String nome;
 	private String email;
 	private Integer idade;
+	@Indexed(unique = true)
 	private String usuario;
 	private String senha;
 	private List<Historico> historicos;
@@ -87,4 +94,39 @@ public class Usuario {
 	public void setHistoricos(List<Historico> historicos) {
 		this.historicos = historicos;
 	}	
+	
+	@Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(() -> "ROLE_USUARIO");
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return usuario;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
