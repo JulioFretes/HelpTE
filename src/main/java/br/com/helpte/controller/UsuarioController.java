@@ -18,13 +18,8 @@ public class UsuarioController {
 
 	@Autowired
     private UsuarioService usuarioService;
-	
-	@GetMapping("/login")
-	public ResponseEntity<Usuario> procurar(Usuario usuario) {		
-		return ResponseEntity.ok(usuarioService.findByUsuario(usuario.getUsuario()).get());
-	}
-	
-    @PostMapping("/registro")
+		
+	@PostMapping("/registro")
     public ResponseEntity<Usuario> save(@RequestBody Usuario usuario){
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.registrar(usuario));
     }
@@ -33,6 +28,11 @@ public class UsuarioController {
     public ResponseEntity<LoginResponse> get(@RequestBody @Valid Credencial credencial) {
         return ResponseEntity.ok(usuarioService.logar(credencial));
     }
+	
+	@GetMapping("/usuario")
+	public ResponseEntity<Usuario> procurar(Usuario usuario) {
+		return ResponseEntity.ok(usuarioService.findByEmail(usuario.getEmail()).get());
+	}	 
   
     @DeleteMapping("/usuario/{id}")
     public ResponseEntity<Usuario> delete(@PathVariable String id){

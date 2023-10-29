@@ -31,19 +31,19 @@ public class UsuarioService {
     	LoginResponse login = new LoginResponse();
         manager.authenticate(credencial.toAuthentication());
         login.setToken(tokenService.generateToken(credencial));
-		login.setUserId(findByUsuario(credencial.usuario()).get().getId());
+		login.setUserId(findByEmail(credencial.email()).get().getId());
 		return login;
     }
     
     public Usuario registrar(Usuario usuario){
     	usuario.setSenha(encoder.encode(usuario.getSenha()));
     	usuarioRepository.save(usuario);
-    	usuario.setId(findByUsuario(usuario.getUsuario()).get().getId());
+    	usuario.setId(findByEmail(usuario.getEmail()).get().getId());
     	return usuario;
     }
     
-    public Optional<Usuario> findByUsuario(String usuario) {
-    	Usuario retornoUsuario = usuarioRepository.findByUsuario(usuario);
+    public Optional<Usuario> findByEmail(String email) {
+    	Usuario retornoUsuario = usuarioRepository.findByEmail(email);
     	return Optional.ofNullable(retornoUsuario);
     }
 	
@@ -55,5 +55,4 @@ public class UsuarioService {
     	usuarioRepository.save(usuario);
     	return usuario;
     }
-    
 }

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.helpte.entity.Usuario;
+import br.com.helpte.repository.UsuarioRepository;
 import br.com.helpte.service.TokenService;
-import br.com.helpte.service.UsuarioService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +23,8 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     @Autowired
     TokenService tokenService;
     
-    private UsuarioService usuarioService;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -33,7 +34,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
         if (token != null){
             String email = tokenService.valide(token);
-            Usuario usuario = usuarioService.findByUsuario(email).get();
+            Usuario usuario = usuarioRepository.findByEmail(email);
             Authentication auth = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
         }

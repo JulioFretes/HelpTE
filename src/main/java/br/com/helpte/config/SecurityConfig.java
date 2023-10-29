@@ -15,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.com.helpte.service.AuthenticationService;
+import br.com.helpte.service.UsuarioService;
 
 @Configuration
 public class SecurityConfig {
@@ -59,4 +60,8 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
     
+    @Bean
+    public UsuarioService usuarioServiceConfig() {
+        return new UsuarioService();
+    }
 }

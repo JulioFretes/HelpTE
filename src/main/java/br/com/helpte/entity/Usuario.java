@@ -17,24 +17,27 @@ public class Usuario implements UserDetails {
 
 	@Id
     private String id;
-	
-	
+		
 	private String nome;
 	private String email;
 	private Integer idade;
 	@Indexed(unique = true)
-	private String usuario;
 	private String senha;
 	private List<Historico> historicos;
 	
 	public Usuario () {}
 	
-	public Usuario(String nome, String email,Integer idade, String usuario, String senha, List<Historico> historicos) {
+	public Usuario(String email, String senha) {
+		this.email = email;
+		this.senha = senha;
+	}
+	
+	public Usuario(String nome, String email,Integer idade, String senha, List<Historico> historicos) {
 		super();
 		this.nome = nome;
 		this.email = email;
 		this.idade = idade;
-		this.usuario = usuario;
+		this.email = email;
 		this.senha = senha;
 		this.historicos = historicos;
 	}
@@ -71,14 +74,6 @@ public class Usuario implements UserDetails {
 		this.idade = idade;
 	}
 
-	public String getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
-
 	public String getSenha() {
 		return senha;
 	}
@@ -107,7 +102,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return usuario;
+        return email;
     }
 
     @Override

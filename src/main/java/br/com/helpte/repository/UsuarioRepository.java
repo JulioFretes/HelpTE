@@ -6,6 +6,6 @@ import br.com.helpte.entity.Usuario;
 
 public interface UsuarioRepository extends MongoRepository<Usuario, String> {
 	
-    Usuario findByUsuario(String usuario);
+    Usuario findByEmail(String email);
 		
 }
