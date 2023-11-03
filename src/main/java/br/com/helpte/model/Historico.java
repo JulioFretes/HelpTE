@@ -7,14 +7,16 @@ public class Historico {
 	private LocalDateTime dataHora;
 	private String frase;
 	private String traducao;
+	private Boolean isDeletado;
 	
 	public Historico () {}
 	
-	public Historico(LocalDateTime dataHora, String frase, String traducao) {
+	public Historico(LocalDateTime dataHora, String frase, String traducao, Boolean isDeletado) {
 		super();
 		this.dataHora = dataHora;
 		this.frase = frase;
 		this.traducao = traducao;
+		this.isDeletado = isDeletado;
 	}
 
 	public LocalDateTime getDataHora() {
@@ -39,5 +41,13 @@ public class Historico {
 
 	public void setTraducao(String traducao) {
 		this.traducao = traducao;
-	}	
+	}
+	
+	public Boolean getIsDeletado() {
+		return isDeletado;
+	}
+
+	public void setIsDeletado(Boolean isDeletado) {
+		this.isDeletado = isDeletado;
+	}
 }

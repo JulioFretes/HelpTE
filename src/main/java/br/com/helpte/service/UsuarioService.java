@@ -31,7 +31,7 @@ public class UsuarioService {
     	LoginResponse login = new LoginResponse();
         manager.authenticate(credencial.toAuthentication());
         login.setToken(tokenService.generateToken(credencial));
-		login.setUserId(findByEmail(credencial.email()).get().getId());
+		login.setUser(findByEmail(credencial.email()).get());
 		return login;
     }
     
