@@ -1,0 +1,84 @@
+//cria banco
+use sprint4
+
+//cria collections
+db.createCollection("usuario");
+db.createCollection("configuracao");
+db.createCollection("historico");
+
+//cruds usuario
+db.usuario.insertMany([
+  { nome: "João", idade: 30, usuario: "joao123", senha: "senhaSegura123" },
+  { nome: "Maria", idade: 25, usuario: "maria456", senha: "acesso12345" },
+  { nome: "Carlos", idade: 40, usuario: "carlos77", senha: "minhaSenha123" },
+  { nome: "Ana", idade: 28, usuario: "ana1989", senha: "senhaSecreta987" },
+  { nome: "Pedro", idade: 35, usuario: "pedro555", senha: "senha1234abc" },
+]);
+db.usuario.updateOne(
+  { _id: ObjectId("6532f5efe19fef7d5099530a") },
+  { $set: { senha: "attSenha123" } }
+);
+db.usuario.deleteOne({ _id: ObjectId("6532f5efe19fef7d5099530b") });
+db.usuario.find();
+
+//cruds configuracao
+db.configuracao.insertMany([
+  { linguagem: "portugues", idUsuario: "6532f5efe19fef7d50995309" },
+  { linguagem: "ingles", idUsuario: "6532f5efe19fef7d5099530a" },
+  { linguagem: "portugues", idUsuario: "6532f5efe19fef7d5099530b" },
+  { linguagem: "portugues", idUsuario: "6532f5efe19fef7d5099530c" },
+  { linguagem: "ingles", idUsuario: "6532f5efe19fef7d5099530d" },
+]);
+db.configuracao.updateMany(
+  { linguagem: "ingles" },
+  { $set: { linguagem: "portugues" } }
+);
+db.configuracao.deleteMany({ linguagem: "portugues" });
+db.configuracao.find({ linguagem: "portugues" });
+
+//cruds historico
+db.historico.insertMany([
+  {
+    datahora: ISODate("2023-10-20T10:00:00.000Z"),
+    frase: "Estou muito feliz hoje!",
+    traducao: "A frase expressa uma emoção de felicidade.",
+    idUsuario: "6532f5efe19fef7d50995309",
+  },
+  {
+    datahora: ISODate("2023-10-20T12:30:00.000Z"),
+    frase: "Sinto-me triste por sua partida.",
+    traducao: "A frase reflete uma emoção de tristeza.",
+    idUsuario: "6532f5efe19fef7d5099530a",
+  },
+  {
+    datahora: ISODate("2023-10-20T15:15:00.000Z"),
+    frase: "Estou ansioso para a reunião de amanhã.",
+    traducao: "A frase indica um sentimento de ansiedade.",
+    idUsuario: "6532f5efe19fef7d5099530b",
+  },
+  {
+    datahora: ISODate("2023-10-20T17:45:00.000Z"),
+    frase: "Essa notícia me deixou aliviado.",
+    traducao: "A frase expressa um sentimento de alívio.",
+    idUsuario: "6532f5efe19fef7d5099530c",
+  },
+  {
+    datahora: ISODate("2023-10-20T17:45:00.000Z"),
+    frase: "A surpresa no aniversário dela foi incrível!",
+    traducao: "A frase indica uma emoção de surpresa e admiração.",
+    idUsuario: "6532f5efe19fef7d5099530d",
+  },
+]);
+db.historico.updateOne(
+  { _id: ObjectId("6532f9e1e19fef7d5099531a") },
+  {
+    $set: {
+      datahora: ISODate("2023-10-10 10:00:00"),
+      frase: "Estou meio triste hoje!",
+      traducao: "A frase expressa uma emoção de tristeza.",
+      idUsuario: "6532f5efe19fef7d50995309",
+    },
+  }
+);
+db.historico.deleteOne({ _id: ObjectId("6532f9e1e19fef7d5099531b") });
+db.historico.findOne({ _id: ObjectId("6532f9e1e19fef7d5099531a") });
